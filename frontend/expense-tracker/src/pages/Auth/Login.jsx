@@ -2,15 +2,27 @@ import React, { useState } from "react";
 import AuthLayout from "../../components/layouts/AuthLayout";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/Inputs/Input";
+import { validateEmail } from "../../utils/helper";
 
 const Login = () => {
   const [email, setEmail] = useState("");
-  const [passsword, setPassword] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {};
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    if (!password) {
+      setError("Please enter the password");
+      return;
+    }
+    setError("");
+  };
   return (
     <AuthLayout>
       <div className="lg:w-[70%] h-3/4 md:h-full flex flex-col justify-center">
@@ -28,7 +40,7 @@ const Login = () => {
             type="text"
           />
           <Input
-            value={passsword}
+            value={password}
             onChange={({ target }) => setPassword(target.value)}
             label="Password"
             placeholder="Min 8 Characters"
