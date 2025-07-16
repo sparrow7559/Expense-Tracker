@@ -47,7 +47,11 @@ const CustomBarChart = ({ data }) => {
             tick={{ fontSize: 12, fill: "#555" }}
             stroke="none"
           />
-          <YAxis tick={{ fontSize: 12, fill: "#555" }} stroke="none" />
+          <YAxis
+            dataKey="amount"
+            tick={{ fontSize: 12, fill: "#555" }}
+            stroke="none"
+          />
 
           <Tooltip content={customTooltip} />
           {/* <Legend content={customLegend} /> */}

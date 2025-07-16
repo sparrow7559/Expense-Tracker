@@ -21,10 +21,10 @@ exports.getDashboardData = async (req, res) => {
       },
     ]);
 
-    console.log("TotalIncome", {
-      totalIncome,
-      userId: isValidObjectId(userId),
-    });
+    // console.log("TotalIncome", {
+    //   totalIncome,
+    //   userId: isValidObjectId(userId),
+    // });
 
     const totalExpense = await Expense.aggregate([
       {
@@ -44,6 +44,12 @@ exports.getDashboardData = async (req, res) => {
       userId,
       date: { $gte: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000) },
     }).sort({ date: -1 });
+
+    if (last60DaysIncomeTransactions.length === 0) {
+      last60DaysIncomeTransactions = await Income.find({ userId })
+        .sort({ date: -1 })
+        .limit(5);
+    }
 
     const incomeLast60Days = last60DaysIncomeTransactions.reduce(
       (sum, transaction) => sum + transaction.amount,
